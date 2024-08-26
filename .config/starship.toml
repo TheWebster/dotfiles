@@ -80,7 +80,6 @@ $direnv\
 $env_var\
 $crystal\
 $custom\
-$sudo\
 $cmd_duration\
 ─┐ 
 └─\
@@ -89,6 +88,7 @@ $battery\
 $os\
 $container\
 $shell\
+$sudo\
 $character"""
 
 right_format = "$status$time─┘"
@@ -282,6 +282,7 @@ format = '\[[$symbol($version)]($style)\]'
 format = '\[[$symbol$environment]($style)\]'
 
 [sudo]
+disabled = false
 format = '\[[as $symbol]($style)\]'
 
 [swift]
