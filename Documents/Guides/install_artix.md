@@ -58,6 +58,8 @@
   $ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
   $ grub-mkconfig -o /boot/grub/grub.cfg
   ```
+- !IMPORTANT!
+  put lvm hook in mkinitcpio!!
 
 - Add users
   ```bash
@@ -68,12 +70,15 @@
 
 - Networking
   ```bash
-  echo ${hostname} >> /etc/hostname
-  echo "
-    127.0.0.1   localhost
-    ::1         localhost
-    127.0.0.1   hostname.localdomain hostname
-  " >> /etc/hosts
+  $ echo ${hostname} >> /etc/hostname
+  $ echo "
+     127.0.0.1   localhost
+     ::1         localhost
+     127.0.0.1   hostname.localdomain hostname
+    " >> /etc/hosts
+  ### CHECK THIS ###
+  $ touch /etc/s6/adminsv/default/contents.d/connmand
+  $ s6-db-reload  
   ```
 
 - Pray
