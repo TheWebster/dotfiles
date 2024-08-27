@@ -89,9 +89,9 @@ $os\
 $container\
 $shell\
 $sudo\
-$character"""
+$status$character"""
 
-right_format = "$status$time─┘"
+right_format = "$time─┘"
 
 add_newline = false
 
@@ -115,6 +115,12 @@ style = 'none'
 [status]
 disabled = false
 symbol = ''
+not_executable_symbol = '🚫 '
+not_found_symbol = '🔍 '
+sigint_symbol = '🧱 '
+signal_symbol = '⚡ '
+format = '\[[$symbol$status]($style)\]'
+map_symbol = true
 
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
