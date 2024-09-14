@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "Updating yadm repo URL to use SSH..."
 

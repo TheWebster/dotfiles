@@ -1,5 +1,4 @@
-
-#!/bin/bash
+#!/bin/sh
 
 # Save this file as ~/.config/yadm/bootstrap and make it executable. It will
 # execute all executable files (excluding templates and editor backups) in the
@@ -15,9 +14,11 @@ if [[ ! -d "$BOOTSTRAP_D" ]]; then
     exit 1
 fi
 
-find -L "$BOOTSTRAP_D" -type f | sort | while IFS= read -r bootstrap; do
-    if [[ -x "$bootstrap" && ! "$bootstrap" =~ "##" && ! "$bootstrap" =~ "~$" ]]; then
-        if ! "$bootstrap"; then
+IFS=$'\n'
+
+for file in $(find -L "$BOOTSTRAP_D" -type f | sort); do
+    if [ -x "$file" ] && ! expr "$file" : ".+##.+" &> /dev/null; then
+        if ! "$file"; then
             echo "Error: bootstrap '$bootstrap' failed" >&2
             exit 1
         fi
