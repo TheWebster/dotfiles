@@ -19,7 +19,7 @@ IFS=$'\n'
 for file in $(find -L "$BOOTSTRAP_D" -type f | sort); do
     if [ -x "$file" ] && ! expr "$file" : ".+##.+" &> /dev/null; then
         if ! "$file"; then
-            echo "Error: bootstrap '$bootstrap' failed" >&2
+            echo "Error: bootstrap '$file' failed" >&2
             exit 1
         fi
     fi
