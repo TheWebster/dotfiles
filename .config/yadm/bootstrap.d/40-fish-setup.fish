@@ -3,7 +3,7 @@
 set -l distro (cat /etc/os-release | sed -En 's/^ID=(.+)$/\1/p')
 
 if [ "$distro" = artix ]
-    fish_add_path /usr/lib/rustup/bin/
+    fish_add_path -U /usr/lib/rustup/bin/
 end
 
 # setup editor
