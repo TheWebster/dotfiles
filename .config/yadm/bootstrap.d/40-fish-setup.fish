@@ -2,6 +2,8 @@
 
 set -l distro (cat /etc/os-release | sed -En 's/^ID=(.+)$/\1/p')
 
+set -U fish_greeting
+
 if [ "$distro" = artix ]
     fish_add_path -U /usr/lib/rustup/bin/
 end
