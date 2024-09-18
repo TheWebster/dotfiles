@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 ### CONFIGURATION ###
 DRIVE=
 VG_NAME=system
@@ -20,11 +22,13 @@ _LVS="root var home swap"
 
 ### FUNCTIONS ###
 function check_var() {
-  var=${!$1}
+  name=$1
+  var=${!name}
   
   if [ -z $var ]
   then
-    echo "Error: \"$1\" not set"
+    echo "Error: \"$name\" not set"
+    exit 1
   fi
 }
 
@@ -43,6 +47,7 @@ do
 done
 
 ### SETUP PARTITIONS ###
+echo "Creating partinsions..."
 parted --script --align optimal ${DRIVE} -- \
   mklabel gpt \
   mkpart 'EFI' fat32 0 512MiB \
@@ -52,11 +57,16 @@ _PART_EFI=/dev/disk/by-partlabel/EFI
 _PART_LVM=/dev/disk/by-partkabel/SYSTEM-LVM
 
 ### SETUP LVM ###
+echo "Creating PV on ${_PART_LVM}..."
 pvcreate ${_PART_LVM}
+
+echo "Creating VG ${VG_NAME}..."
 vgcreate system ${_PART_LVM}
+
 for lv in $_LVS
 do
   size=${lv^^}_SIZE
+  echo "Creating LV ${lv}, size ${size}..."
   lvcreate -L $size -n $lv ${VG_NAME}
 done
 
@@ -66,6 +76,7 @@ _PART_HOME=/dev/system/home
 _PART_SWAP=/dev/system/swap
 
 ### CREATE FILESYSTEMS ###
+echo "Creating filesystems and swap..."
 mkfs.fat -F32 ${_PART_EFI}
 fatlabel ${_PART_EFI} efi
 for lv in $_LVS
@@ -76,6 +87,7 @@ done
 mkswap -L swap /dev/system/swap
 
 ### MOUNT FILESYSTEMS ###
+echo "Mounting hierarchy..."
 mount /dev/system/root /mnt
 cd /mnt
 mkdir -p boot/efi var home
@@ -88,6 +100,7 @@ cd -
 ### SET CLOCK ###
 
 ### INSTALL BASE SYSTEM ###
+echo "Installing base system..."
 basestrap /mnt \
   base \
   base-devel \
