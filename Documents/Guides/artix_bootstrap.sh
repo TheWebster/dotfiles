@@ -113,11 +113,7 @@ basestrap /mnt \
   helix \
   grub \
   os-prober \
-  efibootmgr \
-  xorg-server \
-  rustup \
-  fish \
-  artix-archlinux-support
+  efibootmgr
 
 fstabgen -U /mnt >> /mnt/etc/fstab
 
@@ -148,11 +144,24 @@ cat << EOF >> /etc/hostname
 EOF
 
 touch /etc/s6/adminsv/default/contents.d/connmand
-s6-db-reload
+s6-db-reload -r
 
 passwd
 useradd -m $USERNAME
 passwd $USERNAME
+
+### Extra packages ###
+
+pacman -Syu \
+  artix-archlinux-support \
+  xorg-server \
+  xorg-xinit \
+  alacritty \
+  fish \
+  firefox \
+  rustup \
+
+### Extra settings ###
 
 cat << EOF >> /etc/pacman.conf
 #Arch
