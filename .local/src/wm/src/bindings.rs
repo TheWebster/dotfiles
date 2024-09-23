@@ -1,15 +1,21 @@
 use penrose::{
     builtin::{
-        actions::{exit, modify_with, send_layout_message, spawn},
+        actions::{exit, floating::sink_focused, modify_with, send_layout_message, spawn},
         layout::messages::{ExpandMain, IncMain, ShrinkMain},
     },
-    core::bindings::{parse_keybindings_with_xmodmap, KeyBindings},
+    core::bindings::{
+        click_handler, parse_keybindings_with_xmodmap, KeyBindings, ModifierKey, MouseBindings,
+        MouseButton, MouseState,
+    },
     map,
     x11rb::RustConn,
     Result,
 };
 
-use crate::be_menu::launcher;
+use crate::{
+    be_menu::launcher,
+    mouse::{drag_handler, resize_handler},
+};
 
 pub fn key_bindings() -> Result<KeyBindings<RustConn>> {
     let mut raw_bindings = map! {
@@ -40,4 +46,14 @@ pub fn key_bindings() -> Result<KeyBindings<RustConn>> {
     }
 
     parse_keybindings_with_xmodmap(raw_bindings)
+}
+
+pub fn mouse_bindings() -> MouseBindings<RustConn> {
+    map! {
+        map_keys: |(button, modifiers)| MouseState {button, modifiers};
+
+        (MouseButton::Left, vec![ModifierKey::Meta]) => drag_handler(),
+        (MouseButton::Right, vec![ModifierKey::Meta]) => resize_handler(),
+        (MouseButton::Middle, vec![ModifierKey::Meta]) => click_handler(sink_focused()),
+    }
 }

@@ -3,16 +3,15 @@ mod util;
 mod be_menu;
 mod bindings;
 mod config;
+mod mouse;
 mod theme;
 
-use bindings::key_bindings;
+use bindings::{key_bindings, mouse_bindings};
 use penrose::{
-    builtin::layout::MainAndStack,
     core::{Config, WindowManager},
     extensions::hooks::add_ewmh_hooks,
-    pure::Stack,
     x11rb::RustConn,
-    Color, Result,
+    Result,
 };
 use std::collections::HashMap;
 use tracing_subscriber::{filter::LevelFilter, fmt, EnvFilter};
@@ -46,7 +45,8 @@ fn main() -> Result<()> {
     config = add_ewmh_hooks(config);
     let keys = key_bindings().expect("parse keybindings");
     let conn = RustConn::new().expect("X Connection");
-    let wm = WindowManager::new(config, keys, HashMap::new(), conn).expect("Create Windowmanager");
+    let wm =
+        WindowManager::new(config, keys, mouse_bindings(), conn).expect("Create Windowmanager");
 
     wm.run()
 }
