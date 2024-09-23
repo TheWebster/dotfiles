@@ -21,7 +21,7 @@ fn main() -> Result<()> {
     fmt()
         .with_env_filter(
             EnvFilter::builder()
-                .with_default_directive(LevelFilter::TRACE.into())
+                .with_default_directive(LevelFilter::WARN.into())
                 .from_env_lossy(),
         )
         .init();
