@@ -1,3 +1,5 @@
+use-grammars = { only = ["rstml"] }
+
 [language-server.rust-analyzer.config]
 inlayHints.bindingModeHints.enable = false
 inlayHints.closingBraceHints.minLines = 10
@@ -23,9 +25,11 @@ name = "typescript"
 language-servers = ["angular", "tailwindcss-ls", "typescript-language-server"]
 
 [[language]]
-name = "markdown"
-language-servers = [ "marksman", "mdpls" ]
+name = "rstml"
+scope = "scope.rstml"
+injection-regex = "rstml"
+file-types = []
 
-[language-server.mdpls]
-command = "mdpls"
-config = { markdown.preview.auto = true, markdown.preview.browser = "firefox" }
+[[grammar]]
+name = "rstml"
+source = { git = "https://github.com/rayliwell/tree-sitter-rstml", subpath = "rstml", rev = "07a8e3b9bda09b648a6ccaca09e15dea3adf956f"}
