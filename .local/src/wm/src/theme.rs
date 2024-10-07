@@ -1,4 +1,5 @@
-pub static FONT: &str = "SourceCodePro 22";
+pub static FONT: &str = "SourceCodePro";
+pub static FONT_SIZE: u32 = 11;
 
 // gruvbox 2.0
 static BG0: &str = "282828";
