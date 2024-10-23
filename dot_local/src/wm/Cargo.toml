@@ -1,0 +1,11 @@
+[package]
+name = "wm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+penrose = "0.3.6"
+
+[dependencies.tracing-subscriber]
+version = "0.3.18"
+features = ["env-filter"]
