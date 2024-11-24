@@ -38,7 +38,7 @@ fn main() -> Result<()> {
         focus_follow_mouse: true,
         default_layouts: Stack::try_from_iter([MainAndStack::boxed_default()])
             .expect("empty layout stack"),
-        tags: (0..10).map(|n| n.to_string()).collect(),
+        tags: (1..10).map(|n| n.to_string()).collect(),
         floating_classes: Vec::new(),
         startup_hook: None,
         event_hook: None,
