@@ -1,0 +1,20 @@
+pkgname=axefx2-usb-firmware-loader
+pkgver=1.06
+pkgrel=1
+pkgdesc='AxeFxII USB Firmware and udev-rule'
+arch=('any')
+depends=('fxload' 'udev')
+source=('axefx2load.hex' '55-fractalaudio.rules' 'License' "${pkgname}.install")
+b2sums=(
+    '6bb890461fa1b2b67dfd8e53308e66ef2c2a0ebbefd8b8621bdee45e41f9c85da699d25e734c147eccefc8059d57e32c9e30ebb1a921c65f4420dbd779c6bd01'
+    'c3438f93c62a5814111911a60c3672de49f2e6b72cb3b3615ad7a83fe56bc5745a4cc033931f3fad8771dd764d950b7f0a22cc719ea8cfed55a95ad986f99e4d'
+    '8895ed70a49bf628f867bfba9e5737a087e344c84e6bc0df60d5a847a2f8dd6f1efcadc3043484cc1a2496fcc57058da98af884e57173d9ea7656291676b3af3'
+    'e9edc4d9812e3cdc90fa6d68eee78002dcf617bae824b28544986cdc44e8ac27950e15986f99753243dd58d2bc2dd354d6510d5995d53a4f7eaf1990dfa33069'
+)
+install="${pkgname}.install"
+
+package() {
+	install -Dm644 "${srcdir}/License" "${pkgdir}/usr/share/licenses/${pkgname}/custom:fractalaudio"
+	install -Dm644 -t "${pkgdir}/etc/udev/rules.d" "${srcdir}/55-fractalaudio.rules"
+	install -Dm644 -t "${pkgdir}/usr/share/usb/fractalaudio" "${srcdir}/axefx2load.hex"
+}

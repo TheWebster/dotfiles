@@ -1,0 +1,15 @@
+reload_rules() {
+	udevadm control --reload-rules && udevadm trigger
+}
+
+post_install() {
+	reload_rules
+}
+
+post_upgrade() {
+	reload_rules
+}
+
+post_remove() {
+	reload_rules
+}
